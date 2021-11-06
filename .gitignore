@@ -1,0 +1,4 @@
+*.log
+Checkpoint/*
+Temp/*
+__pycache__
