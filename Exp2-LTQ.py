@@ -239,30 +239,32 @@ loop(f'Exp2-PAPER-c-{ticks+0}', **{
 
 '''
 ======== The experiment for BUSI ===========
-NB: the current experiment only use the mask information of the breast nodules
+This experiment uses both ultrasound images and nodule masks.
+There is 2-channel input -- the crop nodule and the mask.
+The crop nodules are the masked ultrasound images i.e. replacing the pixels out of the nodule by 0.
+(so, NB, the 'ae_plan' starts with 2 -- two input channels; 'input_channels' contains two items.)
 '''
 loop(f'Exp2-PAPER-c-{ticks+1}', **{
     'use_pretrained_ae' : None, 
-    'input_channels' : ['mask'], # mask only
+    'input_channels' : ['crop', 'mask'],
     'n_epoch1': 3000, 
-    'n_epoch2' : 200, 
+    'n_epoch2' : 500, 
     'Yu' : True, 
     'data' : 'BUSI',
-    'n_embed' : 32,
-    'ae_plan' : [1, 32, 64, 256],
+    'n_embed' : 64,
+    'ae_plan' : [2, 32, 64, 1024],
     'cl_plan' : [64, 64, 64, 64],
 }) 
 #               precision    recall  f1-score   support
 
-#            0     0.9337    0.9851    0.9587      1743
-#            1     0.9701    0.8737    0.9194       966
+#            0     0.9476    0.9851    0.9660      1743
+#            1     0.9710    0.9017    0.9351       966
 
-#     accuracy                         0.9454      2709
-#    macro avg     0.9519    0.9294    0.9390      2709
-# weighted avg     0.9467    0.9454    0.9447      2709
+#     accuracy                         0.9553      2709
+#    macro avg     0.9593    0.9434    0.9505      2709
+# weighted avg     0.9559    0.9553    0.9549      2709
 
 # [[1717   26]
-#  [ 122  844]]
-
+#  [  95  871]]
 
 # nohup python3 -u Exp2-LTQ.py >> Exp2-LTQ.log 2>&1 &

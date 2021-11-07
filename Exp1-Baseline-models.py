@@ -127,9 +127,10 @@ def loop(tag, n_epoch, dataset_name, model_name, **args):
     'dataset_name' can be the string of 'DDTI' or 'BUSI'
     'model_name' can be any model under the namespace of 'torchvision.models' e.g. 'resnet50', 'densenet121', etc.
 '''
-# loop('Exp1-Baseline', n_epoch, dataset_name='DDTI', model_name='resnet50') #  
+
+loop('Exp1-Baseline', n_epoch, dataset_name='DDTI', model_name='resnet50') #  
 # loop('Exp1-Baseline', n_epoch, dataset_name='BUSI', model_name='densenet121') #  
-loop('Exp1-Baseline', n_epoch, dataset_name='BUSI', model_name='vgg16') #  
+# loop('Exp1-Baseline', n_epoch, dataset_name='BUSI', model_name='vgg16') #  
 
 
 # nohup python3 -u Exp9-vqvae2.py >> Exp9-vqvae2.log 2>&1 &

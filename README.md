@@ -52,31 +52,31 @@ Confusion matrix:
 
 ```
 # code to run the experiment
-loop(f'Exp2-PAPER-c-{ticks}', **{
-    'use_pretrained_ae' : None,
-    'input_channels' : ['mask'],
+loop(f'Exp2-PAPER-c-{ticks+1}', **{
+    'use_pretrained_ae' : None, 
+    'input_channels' : ['crop', 'mask'],
     'n_epoch1': 3000, 
-    'n_epoch2' : 200, 
+    'n_epoch2' : 500, 
     'Yu' : True, 
     'data' : 'BUSI',
-    'n_embed' : 32,
-    'ae_plan' : [1, 32, 64, 256],
-    'cl_plan' : [64, 64, 64, 64]
+    'n_embed' : 64,
+    'ae_plan' : [2, 32, 64, 1024],
+    'cl_plan' : [64, 64, 64, 64], # 0.9454
 }) 
 ```
 Result:
 ```
               precision    recall  f1-score   support
 
-           0     0.9337    0.9851    0.9587      1743
-           1     0.9701    0.8737    0.9194       966
+           0     0.9476    0.9851    0.9660      1743
+           1     0.9710    0.9017    0.9351       966
 
-    accuracy                         0.9454      2709
-   macro avg     0.9519    0.9294    0.9390      2709
-weighted avg     0.9467    0.9454    0.9447      2709
+    accuracy                         0.9553      2709
+   macro avg     0.9593    0.9434    0.9505      2709
+weighted avg     0.9559    0.9553    0.9549      2709
 ```
 Confusion matrix:
 ```
  [[1717   26]
-  [ 122  844]]
+  [  95  871]]
 ```
