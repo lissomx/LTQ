@@ -2,9 +2,9 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-import distributed as dist_fn
-
-# 出自： https://github.com/rosinality/vq-vae-2-pytorch/blob/master/train_vqvae.py
+# The code is mainly from： 
+# 1. https://github.com/rosinality/vq-vae-2-pytorch/blob/master/train_vqvae.py
+# 2. torchvision.models.resnet 
 
 
 class Quantize(nn.Module):
@@ -36,9 +36,6 @@ class Quantize(nn.Module):
         if self.training:
             embed_onehot_sum = embed_onehot.sum(0)
             embed_sum = flatten.transpose(0, 1) @ embed_onehot
-
-            # dist_fn.all_reduce(embed_onehot_sum)
-            # dist_fn.all_reduce(embed_sum)
 
             self.cluster_size.data.mul_(self.decay).add_(
                 embed_onehot_sum, alpha=1 - self.decay
@@ -76,7 +73,6 @@ class ResBlock(nn.Module):
         out += input
 
         return out
-
 
 
 def conv3x3x(in_planes, out_planes, stride=1, groups=1, dilation=1):
@@ -200,12 +196,10 @@ class Encoder(nn.Module):
             blocks += [
                 Bottleneck(i, o, 2), 
                 Bottleneck(o, o, 1),
-                # Bottleneck1x1(o)
             ]
 
         for _ in range(n_res_block):
             blocks.append(ResBlock(plan[-1], plan[-1]//2))
-            # blocks.append(Bottleneck1x1(plan[-1]))
 
         blocks += [nn.Conv2d(plan[-1], plan[-1], 3, padding=1, bias=False),]
 
@@ -223,14 +217,10 @@ class Decoder(nn.Module):
 
         for i in range(n_res_block):
             blocks.append(ResBlock(plan[0], plan[0]//2))
-            # blocks.append(Bottleneck1x1(plan[0]))
-
-        # blocks.append(nn.ReLU(inplace=True))
 
         for i,o in zip(plan[:-2], plan[1:-1]):
             blocks += [
                 Bottleneck(i, o, -2), 
-                # Bottleneck1x1(o)
                 Bottleneck(o, o, 1),
             ]
 

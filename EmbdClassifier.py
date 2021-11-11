@@ -1,13 +1,10 @@
-from scipy._lib.six import reraise
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torchvision.models.resnet import Bottleneck, BasicBlock, conv1x1
 from einops import rearrange
 from einops.layers.torch import Rearrange
 
 class EmbdClassifier(nn.Module): 
-    '''lr=1e-3, batch_size=64, AdamW, weight_decay=default'''
     def __init__(self, cl_plan,  num_classes=2,  n_embed=256, pre_embed = None, **_):
         super().__init__()
         if pre_embed is not None:
